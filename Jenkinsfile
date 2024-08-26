@@ -25,16 +25,10 @@ stages {
             junit 'target/surefire-reports/*.xml'
             archiveArtifacts 'target/*.jar'
         }
-    }
-
-    stage('print'){
-        agent {
-            label 'linux'
-        }
-        steps{
-            sh "echo hello"
+        post {
+            success {
+                emailext body: "Please check the console output at $BUILD_URL for more information" , to: "arjunbalvadina@gmail.com" , subject: '$PROJECT_NAME is completed - BUILD number is $BUILD_NUMBER and Build status is $BUILD_STATUS'
+            }
         }
     }
 }
-}              
-          
